@@ -4,7 +4,9 @@ class SampleApi < Grape::API
     get '/' do
     end
 
-    desc 'individual widget'
+    desc 'individual widget' do
+      named 'widgets#show'
+    end
     get ':id' do
     end
 

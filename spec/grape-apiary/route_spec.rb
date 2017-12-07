@@ -18,4 +18,22 @@ describe GrapeApiary::Route do
   it 'adds a type helper' do
     expect(subject.route_type).to eq('collection')
   end
+
+  describe '#list?' do
+    context 'when the action is show' do
+      before { expect(subject).to receive(:named).and_return('widgets#show') }
+
+      it 'is true' do
+        expect(subject.list?).to eq(true)
+      end
+    end
+
+    context 'when the action is anything else' do
+      before { expect(subject).to receive(:named).and_return(nil) }
+
+      it 'is false' do
+        expect(subject.list?).to eq(false)
+      end
+    end
+  end
 end

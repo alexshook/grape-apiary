@@ -34,20 +34,29 @@ module GrapeApiary
     end
 
     def request_description
-      "+ Request #{'(application/json)' if request_body?}"
+      "+ Request #{'(application/vnd.api+json)' if request_body?}"
     end
 
     def response_description
       code = request_method == 'POST' ? 201 : 200
 
-      "+ Response #{code} (application/json)"
+      "+ Response #{code} (application/vnd.api+json)"
     end
 
     def list?
-      %w(GET POST).include?(request_method) && !path.include?(':id')
+      # TODO this doesn't handle create when passed an array
+      action_name == 'list'
     end
 
     private
+
+    def action_name
+      /#([a-z]*)$/.match(named)[1]
+    end
+
+    def named
+      params.first.route.app.inheritable_setting.namespace.new_values[:description][:named]
+    end
 
     def request_body?
       !%w(GET DELETE).include?(request_method)
