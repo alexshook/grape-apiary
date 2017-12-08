@@ -10,6 +10,17 @@ module GrapeApiary
     end
 
     def sample(id = false)
+      # how to get entitiy here
+      p ">>>>>"
+      p ">>>>>"
+      p ">>>>>"
+      p ">>>>>"
+      p ">>>>>"
+      p ">>>>>"
+      p ">>>>>"
+      p ">>>>>"
+      p ">>>>>"
+      p self.inspect
       array = resource.unique_params.map do |param|
         next if param.name == root
 
