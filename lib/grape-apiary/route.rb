@@ -22,7 +22,7 @@ module GrapeApiary
     end
 
     def path_without_format
-      path.gsub(/\((.*?)\)/, '')
+      list? ? remove_format(path) : path_single
     end
 
     def route_model
@@ -44,18 +44,33 @@ module GrapeApiary
     end
 
     def list?
+      return verify_with_legacy_list_method unless action_name.presence
+
       # TODO this doesn't handle create when passed an array
       action_name == 'list'
     end
 
     private
 
+    def remove_format(path)
+      path.gsub(/\((.*?)\)/, '')
+    end
+
+    def path_single
+      "#{remove_format(path)}/{#{route_model}_id}"
+    end
+
+    def verify_with_legacy_list_method
+      %w(GET POST).include?(request_method) && !path.include?(':id')
+    end
+
     def action_name
+      return unless named.presence
       /#([a-z]*)$/.match(named)[1]
     end
 
     def named
-      params.first.route.app.inheritable_setting.namespace.new_values[:description][:named]
+      options.dig(:named)
     end
 
     def request_body?
