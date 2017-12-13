@@ -2,7 +2,7 @@ module GrapeApiary
   class SampleGenerator
     attr_reader :resource, :root
 
-    delegate :unique_params, to: :resource
+    delegate :unique_params, :name, to: :resource
 
     def initialize(resource)
       @resource = resource
@@ -10,29 +10,24 @@ module GrapeApiary
     end
 
     def sample(id = false)
-      # how to get entitiy here
-      p ">>>>>"
-      p ">>>>>"
-      p ">>>>>"
-      p ">>>>>"
-      p ">>>>>"
-      p ">>>>>"
-      p ">>>>>"
-      p ">>>>>"
-      p ">>>>>"
-      p self.inspect
-      array = resource.unique_params.map do |param|
-        next if param.name == root
+      begin
+        model = name.sub(":", "").capitalize.constantize
+        entity = resource.namespaced.first.paths.first.routes.first.app.inheritable_setting.namespace.new_values.dig(:description, :detail, :entity)
+        entity.new(model.last)
+      rescue
+        array = resource.unique_params.map do |param|
+          next if param.name == root
 
-        [param.name, param.example]
+          [param.name, param.example]
+        end
+
+        hash = Hash[array.compact]
+
+        hash = hash.reverse_merge(id: Config.generate_id) if id
+        hash = { root => hash } if Config.include_root
+
+        hash
       end
-
-      hash = Hash[array.compact]
-
-      hash = hash.reverse_merge(id: Config.generate_id) if id
-      hash = { root => hash } if Config.include_root
-
-      hash
     end
 
     def request
