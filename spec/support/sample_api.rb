@@ -32,6 +32,10 @@ class SampleApi < Grape::API
     end
     put ':id' do
     end
+
+    desc 'nested widget'
+    get ':id/developers/:developer_id' do
+    end
   end
 
   resource 'admin' do
