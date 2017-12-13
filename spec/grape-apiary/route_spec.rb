@@ -29,7 +29,7 @@ describe GrapeApiary::Route do
 
       it "is '/widgets/{id}/developers/{developer_id}" do
         expect(nested_route_widget.api_blueprintified_path)
-          e.to eq('/widgets/{id}/developers/{developer_id}')
+          .to eq('/widgets/{id}/developers/{developer_id}')
       end
     end
   end
