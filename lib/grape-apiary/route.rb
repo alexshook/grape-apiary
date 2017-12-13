@@ -72,12 +72,7 @@ module GrapeApiary
     end
 
     def action_name
-      return unless named.presence
-      /#([a-z]*)$/.match(named)[1]
-    end
-
-    def named
-      options.dig(:named)
+      options.dig(:detail, :action)
     end
 
     def request_body?
