@@ -4,9 +4,10 @@ class SampleApi < Grape::API
     get '/' do
     end
 
-    desc 'individual widget' do
-      named 'widgets#show'
-    end
+    desc 'individual widget with entity', {
+      named: 'widgets#show',
+      success: 'Placeholder'
+    }
     get ':id' do
     end
 
