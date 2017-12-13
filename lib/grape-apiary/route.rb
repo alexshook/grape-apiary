@@ -21,8 +21,15 @@ module GrapeApiary
       "#{__getobj__.description} [#{request_method.upcase}]"
     end
 
+    def api_blueprintified_path
+      path_pieces = path_without_format.split("/")
+      path_pieces.map do |piece|
+        piece.match(/:/) ? api_blueprintify_ids(piece) : piece
+      end.join("/")
+    end
+
     def path_without_format
-      list? ? remove_format(path) : path_single
+      remove_format(path)
     end
 
     def route_model
@@ -52,12 +59,12 @@ module GrapeApiary
 
     private
 
-    def remove_format(path)
-      path.gsub(/\((.*?)\)/, '')
+    def api_blueprintify_ids(path_piece)
+      path_piece.split(//).drop(1).unshift("{").push("}").join
     end
 
-    def path_single
-      "#{remove_format(path)}/{#{route_model}_id}"
+    def remove_format(path)
+      path.gsub(/\((.*?)\)/, '')
     end
 
     def verify_with_legacy_list_method

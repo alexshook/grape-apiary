@@ -15,6 +15,25 @@ describe GrapeApiary::Route do
     end
   end
 
+  describe "#api_blueprintified_path" do
+    context "when the route is GET /widgets/:id" do
+      subject(:individual_widget) { routes.second }
+
+      it "is '/widgets/{id}" do
+        expect(individual_widget.api_blueprintified_path).to eq('/widgets/{id}')
+      end
+    end
+
+    context "when the route is GET /widgets/:id/developers/:developer_id" do
+      subject(:nested_route_widget) { routes.fifth }
+
+      it "is '/widgets/{id}/developers/{developer_id}" do
+        expect(nested_route_widget.api_blueprintified_path)
+          e.to eq('/widgets/{id}/developers/{developer_id}')
+      end
+    end
+  end
+
   describe "#path_without_format" do
     context "when the route is GET /widgets" do
       it "is '/widgets" do
