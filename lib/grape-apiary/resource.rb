@@ -37,7 +37,6 @@ module GrapeApiary
     end
 
     def sample_response(route)
-      # here's wht has to come back
       sample_generator.response(route.list?)
     end
 

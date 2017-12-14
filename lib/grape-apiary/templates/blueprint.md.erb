@@ -19,7 +19,6 @@ Actions on the <%= resource.name %> resource
       <% end %>
       <% resource_by_path.routes.each do |route| %>
 ### <%= route.description %>
-<%= binding.pry %>
 <% if show_request_sample?(route) %>
 <%= route.request_description %>
 <%= formatted_request_headers %>

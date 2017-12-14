@@ -12,8 +12,8 @@ module GrapeApiary
     def sample(id = false)
       begin
         model = name.sub(":", "").capitalize.constantize
-        entity = resource.namespaced.first.paths.first.routes.first.app.inheritable_setting.namespace.new_values.dig(:description, :detail, :entity)
-        entity.new(model.last)
+        entity = Grape::Jsonapi::Document.top("V20170505::Entities::#{model}".constantize)
+        entity.represent(data: model.last)
       rescue
         array = resource.unique_params.map do |param|
           next if param.name == root
