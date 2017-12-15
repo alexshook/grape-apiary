@@ -72,7 +72,12 @@ module GrapeApiary
     end
 
     def action_name
-      options.dig(:detail, :action)
+      options.dig(
+        :params,
+        route_name.parameterize,
+        :documentation,
+        :action
+      )
     end
 
     def request_body?
