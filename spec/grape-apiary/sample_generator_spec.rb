@@ -36,4 +36,18 @@ describe GrapeApiary::SampleGenerator do
       expect(JSON.parse(subject.response)['id']).to_not be(nil)
     end
   end
+
+  context '#sample' do
+    context 'when the JSON API entity exists' do
+      it 'is the entity hash' do
+        expect(subject.sample).to eq({})
+      end
+    end
+
+    context 'when the JSON API entity does not exist' do
+      it 'is the legacy sample hash' do
+        expect(subject.sample).to eq({"description"=>"the best widget ever made", "name"=>"super widget"})
+      end
+    end
+  end
 end

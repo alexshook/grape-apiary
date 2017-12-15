@@ -11,22 +11,9 @@ module GrapeApiary
 
     def sample(id = false)
       begin
-        model = name.sub(":", "").capitalize.constantize
-        entity = Grape::Jsonapi::Document.top("V20170505::Entities::#{model}".constantize)
-        entity.represent(data: model.last)
+        generate_jsonapi_entity_sample_hash
       rescue
-        array = resource.unique_params.map do |param|
-          next if param.name == root
-
-          [param.name, param.example]
-        end
-
-        hash = Hash[array.compact]
-
-        hash = hash.reverse_merge(id: Config.generate_id) if id
-        hash = { root => hash } if Config.include_root
-
-        hash
+        generate_legacy_sample_hash(id)
       end
     end
 
@@ -62,5 +49,26 @@ module GrapeApiary
         .gsub(/\ {2}\"/, (' ' * 16) + '"')
     end
     # rubocop:enable Metrics/AbcSize
+
+    def generate_jsonapi_entity_sample_hash
+      model   = name.sub(":", "").singularize.capitalize.constantize
+      entity  = Grape::Jsonapi::Document.top("V20170505::Entities::#{model}".constantize)
+      entity.represent(data: model.last)
+    end
+
+    def generate_legacy_sample_hash(id = false)
+      array = resource.unique_params.map do |param|
+        next if param.name == root
+
+        [param.name, param.example]
+      end
+
+      hash = Hash[array.compact]
+
+      hash = hash.reverse_merge(id: Config.generate_id) if id
+      hash = { root => hash } if Config.include_root
+
+      hash
+    end
   end
 end
