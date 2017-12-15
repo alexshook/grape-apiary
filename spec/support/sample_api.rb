@@ -4,10 +4,7 @@ class SampleApi < Grape::API
     get '/' do
     end
 
-    desc 'individual widget with detail', {
-      detail:   { action: "show", entity: Entities::SampleEntity },
-      success:  'Placeholder'
-    }
+    desc 'individual widget'
     get ':id' do
     end
 
