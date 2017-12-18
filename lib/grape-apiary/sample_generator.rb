@@ -10,11 +10,9 @@ module GrapeApiary
     end
 
     def sample(id = false)
-      begin
-        generate_jsonapi_entity_sample_hash
-      rescue
-        generate_legacy_sample_hash(id)
-      end
+      generate_jsonapi_entity_sample_hash
+    rescue
+      generate_legacy_sample_hash(id)
     end
 
     def request
@@ -51,7 +49,7 @@ module GrapeApiary
     # rubocop:enable Metrics/AbcSize
 
     def generate_jsonapi_entity_sample_hash
-      model   = name.sub(":", "").singularize.capitalize.constantize
+      model   = name.sub(':', '').singularize.capitalize.constantize
       entity  = Grape::Jsonapi::Document.top("V20170505::Entities::#{model}".constantize)
       entity.represent(data: model.last)
     end

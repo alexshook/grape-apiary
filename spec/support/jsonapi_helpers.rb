@@ -16,8 +16,7 @@ end
 module Grape
   module Jsonapi
     class Document
-      def self.top(*args)
-      end
+      def self.top(*args); end
     end
   end
 end

@@ -22,10 +22,10 @@ module GrapeApiary
     end
 
     def api_blueprintified_path
-      path_pieces = path_without_format.split("/")
+      path_pieces = path_without_format.split('/')
       path_pieces.map do |piece|
-        piece.match(/:/) ? api_blueprintify_ids(piece) : piece
-      end.join("/")
+        piece.match?(/:/) ? api_blueprintify_ids(piece) : piece
+      end.join('/')
     end
 
     def path_without_format
@@ -53,14 +53,14 @@ module GrapeApiary
     def list?
       return verify_with_legacy_list_method unless action_name.presence
 
-      # TODO this doesn't handle create when passed an array
+      # TODO: this doesn't handle create when passed an array
       action_name == 'list'
     end
 
     private
 
     def api_blueprintify_ids(path_piece)
-      path_piece.split(//).drop(1).unshift("{").push("}").join
+      path_piece.split(//).drop(1).unshift('{').push('}').join
     end
 
     def verify_with_legacy_list_method

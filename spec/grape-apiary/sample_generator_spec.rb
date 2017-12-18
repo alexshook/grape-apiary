@@ -52,7 +52,7 @@ describe GrapeApiary::SampleGenerator do
 
     context 'when the JSON API entity does not exist' do
       it 'is the legacy sample hash' do
-        expect(subject.sample).to eq({"description"=>"the best widget ever made", "name"=>"super widget"})
+        expect(subject.sample).to eq('description' => 'the best widget ever made', 'name' => 'super widget')
       end
     end
   end
