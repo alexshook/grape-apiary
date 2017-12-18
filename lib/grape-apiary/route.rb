@@ -24,7 +24,7 @@ module GrapeApiary
     def api_blueprintified_path
       path_pieces = path_without_format.split('/')
       path_pieces.map do |piece|
-        piece.match?(/:/) ? api_blueprintify_ids(piece) : piece
+        piece.match(/:/) ? api_blueprintify_ids(piece) : piece
       end.join('/')
     end
 
