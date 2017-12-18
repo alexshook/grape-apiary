@@ -29,7 +29,7 @@ module GrapeApiary
     end
 
     def path_without_format
-      remove_format(path)
+      path.gsub(/\((.*?)\)/, '')
     end
 
     def route_model
@@ -61,10 +61,6 @@ module GrapeApiary
 
     def api_blueprintify_ids(path_piece)
       path_piece.split(//).drop(1).unshift("{").push("}").join
-    end
-
-    def remove_format(path)
-      path.gsub(/\((.*?)\)/, '')
     end
 
     def verify_with_legacy_list_method
