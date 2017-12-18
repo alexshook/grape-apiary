@@ -39,8 +39,14 @@ describe GrapeApiary::SampleGenerator do
 
   context '#sample' do
     context 'when the JSON API entity exists' do
+      let(:entity) { V20170505::Entities::Widget }
+
       it 'is the entity hash' do
-        expect(subject.sample).to eq({})
+        expect(Grape::Jsonapi::Document).to receive(:top).and_return(entity)
+        expect(entity).to receive(:represent)
+        expect(Widget).to receive(:last)
+
+        subject.sample
       end
     end
 

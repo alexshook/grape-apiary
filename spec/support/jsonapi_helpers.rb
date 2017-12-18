@@ -5,7 +5,7 @@ end
 
 module V20170505
   module Entities
-    module Widget
+    class Widget
     end
   end
 end
