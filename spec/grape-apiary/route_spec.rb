@@ -19,7 +19,7 @@ describe GrapeApiary::Route do
     context "when the route is GET /widgets/:id" do
       subject(:individual_widget) { routes.second }
 
-      it "is '/widgets/{id}" do
+      it "is '/widgets/{id}'" do
         expect(individual_widget.api_blueprintified_path).to eq('/widgets/{id}')
       end
     end
@@ -27,7 +27,7 @@ describe GrapeApiary::Route do
     context "when the route is GET /widgets/:id/developers/:developer_id" do
       subject(:nested_route_widget) { routes.fifth }
 
-      it "is '/widgets/{id}/developers/{developer_id}" do
+      it "is '/widgets/{id}/developers/{developer_id}'" do
         expect(nested_route_widget.api_blueprintified_path)
           .to eq('/widgets/{id}/developers/{developer_id}')
       end
@@ -36,7 +36,7 @@ describe GrapeApiary::Route do
 
   describe "#path_without_format" do
     context "when the route is GET /widgets" do
-      it "is '/widgets" do
+      it "is '/widgets'" do
         expect(subject.path_without_format).to eq('/widgets')
       end
     end
@@ -44,7 +44,7 @@ describe GrapeApiary::Route do
 
   describe "#route_type" do
     context "when the route is GET /widgets" do
-      it "is 'collection" do
+      it "is 'collection'" do
         expect(subject.route_type).to eq('collection')
       end
     end
