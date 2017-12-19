@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   DESCRIPTION
 
   spec.add_runtime_dependency 'activesupport'
-  spec.add_runtime_dependency 'grape', '>= 0.16.0', '<= 0.19.1'
+  spec.add_runtime_dependency 'grape', '>= 0.16.0', '<= 1.0.1'
   # TODO If we release this gem, we have to push grape-jsonapi_entity to rubygems
   #   and require it as a runtime dependency here
 
