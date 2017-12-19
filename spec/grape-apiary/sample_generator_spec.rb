@@ -12,22 +12,33 @@ describe GrapeApiary::SampleGenerator do
     end
   end
 
+  let(:fake_formatter)  { Class.new }
+  let(:entity)          { V20170505::Entities::Widget }
+
+  let(:stub_jsonapi) do
+    stub_const('Grape::Jsonapi::Formatter', fake_formatter)
+    expect(Grape::Jsonapi::Document).to receive(:top).and_return(entity)
+    expect(entity).to receive(:represent)
+    expect(Widget).to receive(:last)
+    expect(Grape::Jsonapi::Formatter).to receive(:call).and_return({})
+  end
+
   let(:blueprint) { GrapeApiary::Blueprint.new(SampleApi) }
   let(:resource)  { blueprint.resources.first }
 
   subject { GrapeApiary::SampleGenerator.new(resource) }
 
-  it 'creates a sample hash from a resource' do
-    expect(subject.sample).to be_a(Hash)
-  end
-
   context '#request' do
+    before { stub_jsonapi }
+
     it 'creates a sample request in JSON form' do
       expect { JSON.parse(subject.request) }.to_not raise_error
     end
   end
 
   context '#response' do
+    before { stub_jsonapi }
+
     it 'creates a sample response in JSON form' do
       expect { JSON.parse(subject.response) }.to_not raise_error
     end
@@ -39,9 +50,6 @@ describe GrapeApiary::SampleGenerator do
 
   context '#sample' do
     context 'when the JSON API entity exists' do
-      let(:entity) { V20170505::Entities::Widget }
-      let(:fake_formatter) { Class.new }
-
       it 'is the entity hash' do
         stub_const('Grape::Jsonapi::Formatter', fake_formatter)
 
