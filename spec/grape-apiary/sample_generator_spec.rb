@@ -40,11 +40,16 @@ describe GrapeApiary::SampleGenerator do
   context '#sample' do
     context 'when the JSON API entity exists' do
       let(:entity) { V20170505::Entities::Widget }
+      let(:fake_formatter) { Class.new }
 
       it 'is the entity hash' do
+        stub_const('Grape::Jsonapi::Formatter', fake_formatter)
+
         expect(Grape::Jsonapi::Document).to receive(:top).and_return(entity)
         expect(entity).to receive(:represent)
         expect(Widget).to receive(:last)
+        expect(Grape::Jsonapi::Formatter).to receive(:call).and_return({})
+        expect(JSON).to receive(:parse).with({})
 
         subject.sample
       end
@@ -52,7 +57,10 @@ describe GrapeApiary::SampleGenerator do
 
     context 'when the JSON API entity does not exist' do
       it 'is the legacy sample hash' do
-        expect(subject.sample).to eq('description' => 'the best widget ever made', 'name' => 'super widget')
+        expect(subject.sample).to eq(
+          'description' => 'the best widget ever made',
+          'name' => 'super widget'
+        )
       end
     end
   end

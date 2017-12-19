@@ -49,9 +49,10 @@ module GrapeApiary
     # rubocop:enable Metrics/AbcSize
 
     def generate_jsonapi_entity_sample_hash
-      model   = name.sub(':', '').singularize.capitalize.constantize
-      entity  = Grape::Jsonapi::Document.top("V20170505::Entities::#{model}".constantize)
-      entity.represent(data: model.last)
+      model           = name.sub(':', '').singularize.capitalize.constantize
+      entity          = Grape::Jsonapi::Document.top("V20170505::Entities::#{model}".constantize)
+      formatted_hash  = Grape::Jsonapi::Formatter.call(entity.represent(data: model.last), {})
+      JSON.parse(formatted_hash)
     end
 
     def generate_legacy_sample_hash(id = false)
